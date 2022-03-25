@@ -26,10 +26,10 @@
 
       transition: color 0.2s;
 
-      a + a {
+      & + a {
         margin-left: 2rem;
       }
-      margin-left: 2rem;
+      // margin-left: 2rem;
 
       &:hover {
         color: var(--white);
