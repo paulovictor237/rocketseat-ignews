@@ -1,9 +1,14 @@
 import type { NextPage } from "next";
-import { GetServerSideProps } from "next";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import { SubscribeButton } from "../components/SubscribeButton";
 import { stripe } from "../services/stripe";
 import styles from "./home.module.scss";
+
+// Tres tipos de chamadas
+// (SSG) Static-side-generation = informacoes que estao disponiveis para todos
+// (SSR) Server-side-rendering = dados dinamicos da sessão do usuario
+// (CSR) Client-side = dados dinamicos de baixa prioridade
 
 interface HomeProps {
   product: {
@@ -37,7 +42,7 @@ export default function Home({ product }: HomeProps): JSX.Element {
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   const price = await stripe.prices.retrieve("price_1KhA1aCcwmlFIx3ExJLpgAbQ");
 
   const product = {
@@ -53,5 +58,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
       nome: "Peve",
       product,
     },
+    revalidate: 60 * 60 * 24, //24 Horas
   };
 };
